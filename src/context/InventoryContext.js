@@ -15,8 +15,26 @@ export function InventoryProvider({ children }){
         setItems((prevItems) => [...prevItems, newItem]);
     };
 
+    const lowStockItems = items.filter(
+        (item) => item.quantity < item.minStock
+    );
+
+    const orderListByDealer = lowStockItems.reduce((acc, item) => {
+        if ( !acc[item.dealerId]){
+            acc[item.dealerId] = [];
+        }
+        acc[item.dealerId].push(item);
+        return acc;
+    },{});
+
     return(
-        <InventoryContext.Provider value = {{items, addItem}}>
+        <InventoryContext.Provider 
+        value = {{
+            items, 
+            addItem,
+            lowStockItems,
+            orderListByDealer,
+            }}>
             {children}
         </InventoryContext.Provider>
     );
