@@ -1,10 +1,10 @@
-import { View, Text, Button, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Button, TextInput, FlatList, KeyboardAvoidingView, Alert } from 'react-native';
 import { useContext, useState } from 'react';
 
 import { InventoryContext } from '../context/InventoryContext';
 
 export default function BillingScreen() {
-    const { items } = useContext(InventoryContext);
+    const { items, reduceStock } = useContext(InventoryContext);
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState('');
@@ -25,6 +25,26 @@ export default function BillingScreen() {
         } else {
             setAmount(0);
         }
+    };
+
+    const handleConfirmInvoice = () => {
+        if(!selectedItem || !quantity){
+            Alert.alert("Incomplete", "Please select item and quantity");
+            return;
+        }
+        const qty = Number(quantity);
+        const success = reduceStock(selectedItem.id, qty);
+        if (!success){
+            Alert.alert(
+                "Insufficient Stock", "Not enough stock available to complete this sale."
+            );
+            return;
+        }
+        Alert.alert("Invoice Created", "Stock updated successfully.");
+
+        setSelectedItem(null);
+        setQuantity('');
+        setAmount(0);
     };
 
     return (
@@ -59,6 +79,10 @@ export default function BillingScreen() {
                         }}
                     />
                     <Text>Amount: ₹{amount.toString()}</Text>
+                    <Button 
+                        title = "Confirm Invoice"
+                        onPress = {handleConfirmInvoice}
+                        />
                 </View>
             )}
         </KeyboardAvoidingView>
