@@ -9,13 +9,13 @@ export function InvoiceProvider({children}){
     };
     const getInvoicesByCustomer = (customerId) => {
         return invoices.filter(
-            (invoice) => invoice.customerId === customerId
+            (inv) => inv.customerId === customerId
         );
     };
 
     return (
         <InvoiceContext.Provider 
-        value ={{
+        value={{
             invoices,
             addInvoice,
             getInvoicesByCustomer,

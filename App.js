@@ -8,18 +8,21 @@ import { InventoryProvider } from './src/context/InventoryContext';
 import { CustomerProvider } from './src/context/CustomerContext';
 import { InvoiceProvider } from './src/context/InvoiceContext';
 import { DealerProvider } from './src/context/DealerContext';
+import { TransactionProvider } from './src/context/TransactionContext';
 
 export default function App() {
   return (
     <InventoryProvider>
       <CustomerProvider>
         <DealerProvider>
-        <InvoiceProvider>
-        <NavigationContainer>
-          <StatusBar style="auto" />
-          <MainTabs />
-        </NavigationContainer>
-        </InvoiceProvider>
+          <InvoiceProvider>
+            <TransactionProvider>
+              <NavigationContainer>
+                <StatusBar style="auto" />
+                <MainTabs />
+              </NavigationContainer>
+            </TransactionProvider>
+          </InvoiceProvider>
         </DealerProvider>
       </CustomerProvider>
     </InventoryProvider>
