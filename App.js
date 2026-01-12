@@ -6,15 +6,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import MainTabs from './src/navigation/MainTabs';
 import { InventoryProvider } from './src/context/InventoryContext';
 import { CustomerProvider } from './src/context/CustomerContext';
+import { InvoiceProvider } from './src/context/InvoiceContext';
 
 export default function App() {
   return (
     <InventoryProvider>
       <CustomerProvider>
+        <InvoiceProvider>
         <NavigationContainer>
           <StatusBar style="auto" />
           <MainTabs />
         </NavigationContainer>
+        </InvoiceProvider>
       </CustomerProvider>
     </InventoryProvider>
   );
