@@ -7,17 +7,20 @@ import MainTabs from './src/navigation/MainTabs';
 import { InventoryProvider } from './src/context/InventoryContext';
 import { CustomerProvider } from './src/context/CustomerContext';
 import { InvoiceProvider } from './src/context/InvoiceContext';
+import { DealerProvider } from './src/context/DealerContext';
 
 export default function App() {
   return (
     <InventoryProvider>
       <CustomerProvider>
+        <DealerProvider>
         <InvoiceProvider>
         <NavigationContainer>
           <StatusBar style="auto" />
           <MainTabs />
         </NavigationContainer>
         </InvoiceProvider>
+        </DealerProvider>
       </CustomerProvider>
     </InventoryProvider>
   );
