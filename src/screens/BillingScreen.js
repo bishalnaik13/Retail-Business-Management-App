@@ -10,6 +10,7 @@ export default function BillingScreen() {
     const [quantity, setQuantity] = useState('');
     const [amount, setAmount] = useState(0);
 
+    // Future enhancement: integrate smart item suggestion and voice input here
     const handleSelectItem = (item) => {
         setSelectedItem(item);
         setQuantity('');
