@@ -1,9 +1,22 @@
 import { View, Text } from 'react-native';
+import { useContext, useEffect } from 'react';
+
+import { CustomerContext } from '../contexts/CustomerContext';
+import { InvoiceContext } from '../contexts/InvoiceContext';
+import { 
+    checkCreditLimitAlerts,
+    checkDueDateAlerts,
+} from '../utils/alertUtils';
+
 
 export default function DashboardScreen() {
+    const { customers } = useContext(CustomerContext);
+    const { invoices } = useContext(InvoiceContext);
+
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Dashboard Screen</Text>
+            <Text>Dashboard</Text>
+            <Text>Alerts are checked in background (conceptual).</Text>
         </View>
     );
 }
