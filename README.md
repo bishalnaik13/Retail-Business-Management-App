@@ -161,4 +161,149 @@ This project is developed **step by step**, with:
 
 This approach ensures that the application is **understandable, maintainable, and extensible**.
 
+
+# 📘 Project Documentation & Design Notes
+
+## ⚙️ Setup Instructions
+
+### Prerequisites
+
+* Node.js (v16+ recommended)
+* npm or yarn
+* Expo CLI (optional but recommended)
+
+### Steps to Run the Project
+
+```bash
+npm install
+npm start
+```
+
+* Scan the QR code using **Expo Go** (mobile)
+* Or run on emulator / web as required
+
+---
+
+## 🔄 How Billing Affects Stock (Core Business Logic)
+
+One of the most important workflows in this application is the **automatic linkage between billing and inventory**.
+
+### 📌 Implemented Behavior
+
+* Stock is **not reduced** when:
+
+  * An item is selected
+  * Quantity is entered
+* Stock is reduced **only after invoice confirmation**
+
+### ✅ Why This Approach Is Used
+
+* Prevents incorrect stock reduction for:
+
+  * Cancelled bills
+  * Incomplete invoices
+* Matches real-world POS systems
+* Ensures inventory reflects **actual completed sales**
+
+### 🧠 Example Flow
+
+1. Item selected from inventory
+2. Quantity entered
+3. Invoice confirmed
+4. Stock reduced atomically
+5. If stock is insufficient, billing is blocked
+
+This ensures **data integrity and business accuracy**.
+
+---
+
+## 🧩 Why Context API Is Used
+
+The application uses **React Context API** for state management.
+
+### 📌 Reasoning
+
+The following data is **shared across multiple modules**:
+
+* Inventory (used by billing, alerts, order list)
+* Customers (used by billing, reminders)
+* Dealers (used by stock ordering, payments)
+* Transactions (used for auditing and reports)
+
+Using Context API allows:
+
+* Centralized data management
+* Avoidance of prop drilling
+* Clear separation of concerns
+* Easier scalability for this project size
+
+### 🧠 Design Decision
+
+Redux or external state libraries were intentionally avoided to:
+
+* Keep complexity low
+* Maintain clarity for an internship-level project
+* Focus on business logic rather than tooling
+
+---
+
+## 🧠 Implemented vs Conceptual Features
+
+This project intentionally separates **fully implemented logic** from **conceptual placeholders**, as required by the assignment.
+
+### ✅ Fully Implemented Features
+
+* Inventory management
+* Low stock detection and dealer-wise order list
+* Invoice structure and billing calculations
+* Automatic stock reduction after billing
+* Customer pending payment tracking
+* Dealer payment tracking
+* Cash vs online transaction separation
+* Credit limit and due date alert logic (console-based)
+
+---
+
+### 🧪 Conceptual (Documented, Not Fully Implemented)
+
+The following features are intentionally **conceptual only**, with clear documentation and placeholders:
+
+* WhatsApp notifications & reminders
+* PDF / Excel bill sharing
+* AI-based item suggestion
+* Voice-to-text input
+* Exportable audit reports
+* Background schedulers (cron jobs)
+
+Each conceptual feature includes:
+
+* Clear comments explaining where integration would occur
+* No fake APIs or misleading implementations
+* Honest boundaries between frontend and backend responsibilities
+
+---
+
+## 📐 Key Assumptions
+
+* Single shop usage
+* Single admin user
+* Offline-first design
+* No real payment gateway integration
+* No backend server (mock/local data only)
+* Focus on workflow understanding rather than production deployment
+
+---
+
+## 🧭 Development Philosophy
+
+This project was developed:
+
+* Incrementally (commit-by-commit)
+* With clear separation of logic, UI, and data models
+* With strong emphasis on **real-world retail workflows**
+* Without copying or auto-generating entire modules
+
+The commit history reflects **progressive understanding**, not a single bulk submission.
+
+
 ---
