@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native';
 import { useContext, useEffect } from 'react';
 
-import { CustomerContext } from '../contexts/CustomerContext';
-import { InvoiceContext } from '../contexts/InvoiceContext';
+import { CustomerContext } from '../context/CustomerContext';
+import { InvoiceContext } from '../context/InvoiceContext';
 import { 
     checkCreditLimitAlerts,
     checkDueDateAlerts,

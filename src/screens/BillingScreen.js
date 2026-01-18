@@ -50,9 +50,16 @@ export default function BillingScreen() {
 
     return (
         <KeyboardAvoidingView style={{ flex: 1, padding: 16 }} behavior="padding">
-            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>
+            <Text style={{ fontWeight: 'bold', marginBottom: 10, marginTop: 45 }}>
                 Select Item
             </Text>
+            {items.length === 0 && (
+                <Text style={{ marginTop: 20, textAlign: 'center', color: 'gray' }}>
+                    No stock items available.
+                    {'\n'}Please add items before billing.
+                </Text>
+            )}
+            
 
             <FlatList
                 data={items}
