@@ -9,6 +9,7 @@ export default class Transaction {
         this.id = id;
         this.date = date;
         this.amount = amount;
+        //type should be one of TransactionType enum values.
         this.type = type;   
         this.reference = reference;
     }

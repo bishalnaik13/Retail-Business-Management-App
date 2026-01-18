@@ -20,6 +20,7 @@ export default class Invoice {
         this.subtotal = subtotal;
         this.tax = tax;
         this.total = total;
+        //paymentStatus should be one of PaymentStatus enum values.
         this.paymentStatus = paymentStatus; 
     }
 }
