@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { InventoryContext } from '../context/InventoryContext';
 
-export default function InventoryScreen() {
+export default function InventoryScreen({navigation}) {
     const { items, addItem, orderListByDealer } = useContext(InventoryContext);
 
 
@@ -54,6 +54,10 @@ export default function InventoryScreen() {
                     }}
                 />
             )}
+            <Button
+                title= "Add New Item"
+                onPress={() => navigation.navigate('InventoryForm')}
+                />
 
 
         </View>
