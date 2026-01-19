@@ -1,22 +1,50 @@
-import { View, Text, Button, FlatList } from 'react-native';
-import { useContext } from 'react';
+import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import { useContext, useState } from 'react';
 
 import { InventoryContext } from '../context/InventoryContext';
 
 export default function InventoryScreen({ navigation }) {
     const { items, addItem, orderListByDealer } = useContext(InventoryContext);
+    const [searchText, setSearchText] = useState('');
+    const [showLowStockOnly, setShowLowStockOnly] = useState(false);
 
+    const filteredItems = items.filter((item) => {
+        const matchesSearch =
+            item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            (item.hsn && item.hsn.includes(searchText));
+        const matchesLowStock = showLowStockOnly
+            ? item.quantity < item.minStock
+            : true;
+        return matchesSearch && matchesLowStock;
+    });
 
     return (
-        <View style={{ flex: 1, padding: 16, marginVertical: 45 }}>
-            {items.length === 0 ? (
+        <View style={{ flex: 1, padding: 16, marginVertical: 10 }}>
+            <TextInput
+                placeholder='Search by item name or HSN'
+                value={searchText}
+                onChangeText={setSearchText}
+                style={{
+                    borderWidth: 1,
+                    padding: 8,
+                    marginBottom: 10,
+                    borderRadius: 4,
+                }}
+            />
+            <Button
+                title={
+                    showLowStockOnly ? 'Show All Items' : 'Show Low Stock Only'
+                }
+                onPress={() => setShowLowStockOnly((prev) => !prev)}
+            />
+            {filteredItems.length === 0 ? (
                 <Text style={{ marginTop: 20, textAlign: 'center', color: 'gray' }}>
-                    No stock items available.
-                    {'\n'}Please add items from Inventory Management.
+                    No matching inventory items found.
                 </Text>
             ) : (
+
                 <FlatList
-                    data={items}
+                    data={filteredItems}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => {
                         const isLowStock = item.quantity < item.minStock;
