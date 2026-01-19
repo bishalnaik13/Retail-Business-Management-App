@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Button } from 'react-native';
 import { useContext } from 'react';
 
 import { DealerContext } from '../context/DealerContext';
@@ -8,6 +8,12 @@ export default function DealersScreen({navigation}) {
 
     return (
         <View style={{ flex: 1, padding: 16}}>
+            {dealers.length === 0 && (
+                <Button
+                    title="Add Dealer"
+                    onPress={() => navigation.navigate('DealerForm')}
+                />
+            )}
             <Text style={{ fontWeight: 'bold', marginBottom: 16, marginTop: 20 }}>
                 Dealers Payments Overview
                 </Text>

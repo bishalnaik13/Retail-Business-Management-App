@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 
-import { Dealer } from '../models/Dealer';
+import Dealer from '../models/Dealer';
 
 export const DealerContext = createContext();
 

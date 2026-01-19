@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import DealersScreen from '../screens/DealersScreen';
 import DealerHistoryScreen from '../screens/DealerHistoryScreen';
+import DealerFormScreen from '../screens/DealerFormScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,11 @@ export default function DealerStack() {
                 name="DealerList"
                 component={DealersScreen}
                 options={{ title: 'Dealers' }}
+            />
+            <Stack.Screen
+                name="DealerForm"
+                component={DealerFormScreen}
+                options={{ title: 'Add Dealer' }}
             />
             <Stack.Screen
                 name="DealerHistory"

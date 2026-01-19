@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { InventoryContext } from '../context/InventoryContext';
 
 export default function InventoryScreen({ navigation }) {
-    const { items, addItem, orderListByDealer } = useContext(InventoryContext);
+    const { items, addItem, orderListByDealer, adjustments } = useContext(InventoryContext);
     const [searchText, setSearchText] = useState('');
     const [showLowStockOnly, setShowLowStockOnly] = useState(false);
 
@@ -72,11 +72,16 @@ export default function InventoryScreen({ navigation }) {
                                     Order List (Dealer-wise)
                                 </Text>
 
+                                {/* Order List */}
+                                <Text style={{ marginTop: 20, fontWeight: 'bold' }}>
+                                    Order List (Dealer-wise)
+                                </Text>
+
                                 {Object.keys(orderListByDealer).length === 0 ? (
                                     <Text>No items need reordering.</Text>
                                 ) : (
                                     Object.entries(orderListByDealer).map(([dealerId, items]) => (
-                                        <View key={dealerId} style={{ marginTop: 10 }}>
+                                        <View key={dealerId}>
                                             <Text>Dealer: {dealerId}</Text>
                                             {items.map((item) => (
                                                 <Text key={item.id}>
@@ -86,16 +91,22 @@ export default function InventoryScreen({ navigation }) {
                                         </View>
                                     ))
                                 )}
+
+                                {/* Stock Adjustments */}
                                 {adjustments.length > 0 && (
                                     <>
                                         <Text style={{ marginTop: 20, fontWeight: 'bold' }}>
                                             Stock Adjustments
                                         </Text>
-                                        {adjustments.map((adj) => (
-                                            <Text key={adj.id}>
-                                                Item: {adj.itemId}, Change: {adj.change}, Reason: {adj.reason}
-                                            </Text>
-                                        ))}
+                                        {adjustments.map((adj) => {
+                                            const itemName =
+                                                items.find((i) => i.id === adj.itemId)?.name || adj.itemId;
+                                            return (
+                                                <Text key={adj.id}>
+                                                    Item: {itemName}, Change: {adj.change}, Reason: {adj.reason}
+                                                </Text>
+                                            );
+                                        })}
                                     </>
                                 )}
 
