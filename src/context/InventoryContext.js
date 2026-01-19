@@ -1,4 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
+
 import StockItem from '../models/StockItem';
 
 export const InventoryContext = createContext();
@@ -47,6 +50,34 @@ export function InventoryProvider({ children }) {
         acc[item.dealerId].push(item);
         return acc;
     }, {});
+
+    useEffect(() => {
+        const loadInventory = async () => {
+            try {
+                const storedItems = await AsyncStorage.getItem(STORAGE_KEYS.INVENTORY);
+                if (storedItems) {
+                    setItems(JSON.parse(storedItems));
+                }
+            }catch (error) {
+                console.error("Failed to load inventory", error);
+            }
+        };
+        loadInventory();
+    }, [])
+
+    useEffect(() => {
+        const saveInventory = async () => {
+            try {
+                await AsyncStorage.setItem(
+                    STORAGE_KEYS.INVENTORY,
+                    JSON.stringify(items)
+                );
+            }catch (error){
+                console.error("Failed to save inventory", error);
+            }
+        };
+        saveInventory();
+    }, [items]);
 
     return (
         <InventoryContext.Provider
