@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import InventoryScreen from '../screens/InventoryScreen';
 import InventoryFormScreen from '../screens/InventoryFormScreen';
+import StockAdjustmentScreen from '../screens/StockAdjustmentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,11 @@ export default function InventoryStack() {
                 name="InventoryForm"
                 component={InventoryFormScreen}
                 options={{ title: 'Add Inventory Item' }}
+            />
+            <Stack.Screen
+                name="StockAdjustment"
+                component={StockAdjustmentScreen}
+                options={{ title: 'Adjust Stock' }}
             />
         </Stack.Navigator>
     );

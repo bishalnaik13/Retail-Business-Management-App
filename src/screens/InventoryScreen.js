@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { InventoryContext } from '../context/InventoryContext';
 
-export default function InventoryScreen({navigation}) {
+export default function InventoryScreen({ navigation }) {
     const { items, addItem, orderListByDealer } = useContext(InventoryContext);
 
 
@@ -24,6 +24,15 @@ export default function InventoryScreen({navigation}) {
                             <View style={{ paddingVertical: 8 }}>
                                 <Text>{item.name}</Text>
                                 <Text>Qty: {item.quantity} {item.unit}</Text>
+
+                                <Button
+                                    title="Adjust"
+                                    onPress={() =>
+                                        navigation.navigate('StockAdjustment', {
+                                            itemId: item.id,
+                                        })
+                                    }
+                                />
 
                                 {isLowStock && (
                                     <Text style={{ color: 'red' }}>
@@ -49,15 +58,30 @@ export default function InventoryScreen({navigation}) {
                                         </View>
                                     ))
                                 )}
+                                {adjustments.length > 0 && (
+                                    <>
+                                        <Text style={{ marginTop: 20, fontWeight: 'bold' }}>
+                                            Stock Adjustments
+                                        </Text>
+                                        {adjustments.map((adj) => (
+                                            <Text key={adj.id}>
+                                                Item: {adj.itemId}, Change: {adj.change}, Reason: {adj.reason}
+                                            </Text>
+                                        ))}
+                                    </>
+                                )}
+
                             </View>
                         );
                     }}
                 />
             )}
             <Button
-                title= "Add New Item"
+                title="Add New Item"
                 onPress={() => navigation.navigate('InventoryForm')}
-                />
+            />
+
+
 
 
         </View>

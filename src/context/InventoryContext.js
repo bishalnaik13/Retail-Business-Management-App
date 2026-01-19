@@ -8,6 +8,7 @@ export const InventoryContext = createContext();
 
 export function InventoryProvider({ children }) {
     const [items, setItems] = useState([]);
+    const [adjustments, setAdjustments] = useState([]);
 
     const addItem = (itemData) => {
         const newItem = new StockItem({
@@ -58,7 +59,7 @@ export function InventoryProvider({ children }) {
                 if (storedItems) {
                     setItems(JSON.parse(storedItems));
                 }
-            }catch (error) {
+            } catch (error) {
                 console.error("Failed to load inventory", error);
             }
         };
@@ -72,12 +73,40 @@ export function InventoryProvider({ children }) {
                     STORAGE_KEYS.INVENTORY,
                     JSON.stringify(items)
                 );
-            }catch (error){
+            } catch (error) {
                 console.error("Failed to save inventory", error);
             }
         };
         saveInventory();
     }, [items]);
+
+    //Adjust stock manually with mandatory reason.
+    const adjustStock = (itemId, change, reason) => {
+        if (!reason) {
+            throw new Error("Adjustment reason is required");
+        }
+        setItems((prevItems) =>
+            prevItems.map((item) => {
+                if (item.id === itemId) {
+                    return {
+                        ...item,
+                        quantity: item.quantity + change,
+                    };
+                }
+                return item;
+            })
+        );
+        setAdjustments((prev) => [
+            ...prev,
+            {
+                id: Date.now().toString(),
+                itemId,
+                change,
+                reason,
+                date: new Date().toISOString(),
+            },
+        ]);
+    }
 
     return (
         <InventoryContext.Provider
@@ -85,6 +114,8 @@ export function InventoryProvider({ children }) {
                 items,
                 addItem,
                 reduceStock,
+                adjustStock,
+                adjustments,
                 lowStockItems,
                 orderListByDealer,
             }}>
