@@ -14,7 +14,7 @@ export default class Invoice {
     }) {
         this.invoiceNo = invoiceNo;
         this.date = date;
-        this.dueDate = this.dueDate;
+        this.dueDate = dueDate;
         this.customerId = customerId;
         this.items = items;
         this.subtotal = subtotal;

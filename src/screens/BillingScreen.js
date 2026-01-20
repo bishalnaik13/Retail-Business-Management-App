@@ -11,6 +11,10 @@ import {
     SGST_RATE,
     IGST_RATE,
 } from '../constants/tax';
+import { InvoiceContext } from '../context/InvoiceContext';
+import Invoice from '../models/Invoice';
+import { PaymentStatus } from '../constants/paymentStatus';
+import { generateInvoiceNumber } from '../utils/invoiceUtils';
 
 export default function BillingScreen() {
 
@@ -120,11 +124,42 @@ export default function BillingScreen() {
 
     const isInvoiceEmpty = invoiceItems.length === 0;
 
+    const { addInvoice } = useContext(InvoiceContext);
+
+    const handleSaveInvoice = () => {
+        if (isInvoiceEmpty) {
+            Alert.alert('Invoice is empty');
+            return;
+        }
+        const invoice = new Invoice({
+            invoiceNo: generateInvoiceNumber(),
+            date: new Date().toISOString(),
+            dueDate: new Date(
+                Date.now() + 7 * 24 * 60 * 60 * 1000
+            ).toISOString(), // 7 days credit
+            customerId: null, // will be linked later
+            items: invoiceItems,
+            subtotal,
+            tax: totalTax,
+            total: grandTotal,
+            paymentStatus: PaymentStatus.PENDING,
+        });
+
+        addInvoice(invoice);
+
+        Alert.alert('Invoice Saved');
+
+        // Reset draft
+        setInvoiceItems([]);
+        setInvoiceDiscount('');
+        setSelectedItem(null);
+    };
+
     return (
         //<View>
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <ScrollView
-                contentContainerStyle={{ padding: 16, paddingBottom: 250 }}
+                contentContainerStyle={{ padding: 16, paddingBottom: 500 }}
                 keyboardShouldPersistTaps="handled">
 
                 <View
@@ -160,7 +195,7 @@ export default function BillingScreen() {
                 {/* Item List */}
                 {items.length > 0 && (
                     <>
-                    {items.map((item) => (
+                        {items.map((item) => (
                             <TouchableOpacity
                                 key={item.id}
                                 onPress={() => handleSelectItem(item)}
@@ -181,7 +216,7 @@ export default function BillingScreen() {
                             </TouchableOpacity>
 
                         ))
-                    }
+                        }
                     </>
 
                 )}
@@ -512,6 +547,28 @@ export default function BillingScreen() {
                 >
                     Grand Total: ₹{isInvoiceEmpty ? 0 : grandTotal}
                 </Text>
+                <TouchableOpacity
+                    onPress={handleSaveInvoice}
+                    disabled={isInvoiceEmpty}
+                    style={{
+                        marginTop: 12,
+                        paddingVertical: 14,
+                        borderRadius: 10,
+                        backgroundColor: isInvoiceEmpty ? '#374151' : '#22c55e',
+                    }}
+                >
+                    <Text
+                        style={{
+                            color: '#ffffff',
+                            textAlign: 'center',
+                            fontSize: 16,
+                            fontWeight: '700',
+                        }}
+                    >
+                        Save Invoice
+                    </Text>
+                </TouchableOpacity>
+
 
 
             </View>

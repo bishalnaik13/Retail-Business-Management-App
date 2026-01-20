@@ -3,4 +3,5 @@
  */
 export const STORAGE_KEYS ={
     INVENTORY: 'INVENTORY_ITEMS',
+    INVOICES: 'INVOICES',
 }

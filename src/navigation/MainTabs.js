@@ -10,6 +10,7 @@ import MoreScreen from "../screens/MoreScreen";
 import CustomerStack from "./CustomerStack";
 import DealerStack from "./DealerStack";
 import InventoryStack from "./InventoryStack";
+import InvoiceStack from "./InvoiceStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,6 +20,7 @@ export default function MainTabs() {
             <Tab.Screen name="Dashboard" component={DashboardScreen} />
             <Tab.Screen name="Customers" component={CustomerStack} />
             <Tab.Screen name="Billing" component={BillingScreen} />
+            <Tab.Screen name="Invoices" component={InvoiceStack} />
             <Tab.Screen name="Dealers" component={DealerStack} />
             <Tab.Screen name="Stock" component={InventoryStack} />
             <Tab.Screen name="More" component={MoreScreen} />
