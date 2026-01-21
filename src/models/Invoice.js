@@ -11,6 +11,7 @@ export default class Invoice {
         tax,
         total,
         paymentStatus,
+        paidAmount = 0,
     }) {
         this.invoiceNo = invoiceNo;
         this.date = date;
@@ -20,6 +21,8 @@ export default class Invoice {
         this.subtotal = subtotal;
         this.tax = tax;
         this.total = total;
+        this.paidAmount = paidAmount;
+        this.balanceAmount = Math.max(total - paidAmount, 0);
         //paymentStatus should be one of PaymentStatus enum values.
         this.paymentStatus = paymentStatus; 
     }
