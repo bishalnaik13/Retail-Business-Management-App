@@ -22,7 +22,7 @@ export default function BillingScreen() {
         const num = Number(value);
         return isNaN(num) ? 0 : num;
     };
-    const { items } = useContext(InventoryContext);
+    const { items, canReduceStock, reduceStockBatch } = useContext(InventoryContext);
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState('');
@@ -131,6 +131,18 @@ export default function BillingScreen() {
             Alert.alert('Invoice is empty');
             return;
         }
+
+        // Validate stock for ALL Items
+        const isStockOk = canReduceStock(invoiceItems);
+        if (!isStockOk) {
+            Alert.alert(
+                'Stock Error',
+                'Insufficient stock for one or more items. Invoice not saved.'
+            );
+            return;
+        }
+
+        // Create invoice object (Still not saved)
         const invoice = new Invoice({
             invoiceNo: generateInvoiceNumber(),
             date: new Date().toISOString(),
@@ -145,7 +157,9 @@ export default function BillingScreen() {
             paymentStatus: PaymentStatus.PENDING,
         });
 
-        addInvoice(invoice);
+        // Commit transaction atomically
+        reduceStockBatch(invoiceItems); //mutate stock
+        addInvoice(invoice); //persist invoice
 
         Alert.alert('Invoice Saved');
 

@@ -19,25 +19,23 @@ export function InventoryProvider({ children }) {
         setItems((prevItems) => [...prevItems, newItem]);
     };
 
-    const reduceStock = (itemId, soldQty) => {
-        let isStockAvailable = true;
+    const reduceStockBatch = (invoiceItems) => {
         setItems((prevItems) =>
             prevItems.map((item) => {
-                if (item.id === itemId) {
-                    if (item.quantity < soldQty) {
-                        isStockAvailable = false;
-                        return item;
-                    }
+                const soldItem = invoiceItems.find(
+                    (i) => i.id === item.id
+                );
+                if (soldItem) {
                     return {
                         ...item,
-                        quantity: item.quantity - soldQty,
+                        quantity: item.quantity - soldItem.billedQty,
                     };
                 }
                 return item;
             })
         );
-        return isStockAvailable;
     };
+
 
 
     const lowStockItems = items.filter(
@@ -108,17 +106,29 @@ export function InventoryProvider({ children }) {
         ]);
     }
 
+    const canReduceStock = (invoiceItems) => {
+        for (let invItem of invoiceItems) {
+            const stockItem = items.find((i) => i.id === invItem.id);
+            if (!stockItem || stockItem.quantity < invItem.billedQty) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     return (
         <InventoryContext.Provider
             value={{
                 items,
                 addItem,
-                reduceStock,
+                canReduceStock,
+                reduceStockBatch,
                 adjustStock,
                 adjustments,
                 lowStockItems,
                 orderListByDealer,
-            }}>
+            }}
+        >
             {children}
         </InventoryContext.Provider>
     );
