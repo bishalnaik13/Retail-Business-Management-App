@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CustomersScreen from '../screens/CustomersScreen';
 import CustomerHistoryScreen from '../screens/CustomerHistoryScreen';
 import CustomerFormScreen from '../screens/CustomerFormScreen';
+import CustomerLedgerScreen from '../screens/CustomerLedgerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,11 @@ export default function CustomerStack() {
                 name="CustomerForm"
                 component={CustomerFormScreen}
                 options={{ title: 'Add Customer' }}
+            />
+            <Stack.Screen
+                name="CustomerLedger"
+                component={CustomerLedgerScreen}
+                options={{ title: 'Customer Ledger' }}
             />
         </Stack.Navigator>
     );

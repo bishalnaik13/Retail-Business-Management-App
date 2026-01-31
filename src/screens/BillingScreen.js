@@ -13,6 +13,7 @@ import {
 } from '../constants/tax';
 import { InvoiceContext } from '../context/InvoiceContext';
 import Invoice from '../models/Invoice';
+import { CustomerContext } from '../context/CustomerContext';
 import { PaymentStatus } from '../constants/paymentStatus';
 import { generateInvoiceNumber } from '../utils/invoiceUtils';
 
@@ -29,6 +30,9 @@ export default function BillingScreen() {
     const [invoiceItems, setInvoiceItems] = useState([]);
     const [invoiceDiscount, setInvoiceDiscount] = useState('');
     const [isInterState, setIsInterState] = useState(false);
+
+    const { addLedgerEntry } = useContext(CustomerContext);
+
 
     // Future enhancement: integrate smart item suggestion and voice input here
     const handleSelectItem = (item) => {
@@ -162,6 +166,17 @@ export default function BillingScreen() {
         addInvoice(invoice); //persist invoice
 
         Alert.alert('Invoice Saved');
+
+        if (invoice.customerId) {
+            addLedgerEntry({
+                customerId: invoice.customerId,
+                type: 'DEBIT',
+                amount: grandTotal,
+                reference: invoice.invoiceNo,
+                note: 'Invoice created',
+            });
+        }
+
 
         // Reset draft
         setInvoiceItems([]);

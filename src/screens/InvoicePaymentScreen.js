@@ -1,7 +1,9 @@
 import { View, Text, TextInput, Button, Alert, ScrollView } from 'react-native';
 import { useContext, useState } from 'react';
+
 import { InvoiceContext } from '../context/InvoiceContext';
 import { TransactionContext } from '../context/TransactionContext';
+import { CustomerContext } from '../context/CustomerContext';
 import { TransactionType } from '../constants/transactionType';
 
 export default function InvoicePaymentScreen({ route, navigation }) {
@@ -18,6 +20,8 @@ export default function InvoicePaymentScreen({ route, navigation }) {
 
     const [amount, setAmount] = useState('');
     const [mode, setMode] = useState(TransactionType.CASH);
+    const { addLedgerEntry } = useContext(CustomerContext);
+
 
     const handlePayment = () => {
         const payAmount = Number(amount);
@@ -41,6 +45,15 @@ export default function InvoicePaymentScreen({ route, navigation }) {
                     text: 'Confirm',
                     onPress: () => {
                         updateInvoicePayment(invoice.invoiceNo, payAmount);
+                        if (invoice.customerId) {
+                            addLedgerEntry({
+                                customerId: invoice.customerId,
+                                type: 'CREDIT',
+                                amount: payAmount,
+                                reference: invoice.invoiceNo,
+                                note: `Payment received (${mode})`,
+                            });
+                        }
                         addTransaction({
                             amount: payAmount,
                             type: mode,

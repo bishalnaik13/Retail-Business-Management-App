@@ -4,10 +4,10 @@ import { useContext } from 'react';
 import { CustomerContext } from '../context/CustomerContext';
 
 export default function CustomersScreen({ navigation }) {
-    const { customers } = useContext(CustomerContext);
+    const { customers, getCustomerPendingAmount } = useContext(CustomerContext);
 
     const customersWithPending = customers.filter(
-        (c) => c.pendingAmount > 0
+        (c) => getCustomerPendingAmount(c.id) > 0
     );
 
     return (
@@ -25,7 +25,7 @@ export default function CustomersScreen({ navigation }) {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() =>
-                            navigation.navigate('CustomerHistory', {
+                            navigation.navigate('CustomerLedger', {
                                 customerId: item.id,
                                 customerName: item.name,
                             })
@@ -42,13 +42,12 @@ export default function CustomersScreen({ navigation }) {
                             <Text style={{ fontWeight: '600' }}>{item.name}</Text>
                             <Text style={{ color: '#6b7280' }}>{item.phone}</Text>
                             <Text style={{ color: '#dc2626', marginTop: 4 }}>
-                                Pending: ₹{item.pendingAmount}
+                                Pending: ₹{getCustomerPendingAmount(item.id)}
                             </Text>
 
                         </View>
                     </TouchableOpacity>
                 )}
-
             />
             <TouchableOpacity
                 style={{
@@ -63,9 +62,6 @@ export default function CustomersScreen({ navigation }) {
             >
                 <Text style={{ color: '#fff', fontWeight: '700' }}> ＋ </Text>
             </TouchableOpacity>
-
-
-
         </View>
     );
 }
