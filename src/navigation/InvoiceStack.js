@@ -8,8 +8,16 @@ const Stack = createNativeStackNavigator();
 export default function InvoiceStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Invoices" component={InvoiceListScreen} />
-      <Stack.Screen name="InvoiceDetail" component={InvoiceDetailScreen} />
+      <Stack.Screen 
+        name="InvoiceList" 
+        component={InvoiceListScreen}
+        options={{ title: 'Invoices' }} 
+        />
+      <Stack.Screen 
+        name="InvoiceDetail" 
+        component={InvoiceDetailScreen} 
+        options={{ title: 'Invoice Details' }}
+        />
       <Stack.Screen 
         name="InvoicePayment" 
         component={InvoicePaymentScreen}

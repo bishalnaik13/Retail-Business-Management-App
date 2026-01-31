@@ -193,6 +193,20 @@ export default function BillingScreen() {
                     </Text>
                 </View>
 
+                <View
+                    style={{
+                        padding: 12,
+                        borderRadius: 8,
+                        backgroundColor: '#fff7ed',
+                        marginBottom: 12,
+                    }}
+                >
+                    <Text style={{ fontSize: 12, color: '#92400e' }}>
+                        Customer selection & credit checks will be applied in next phase
+                    </Text>
+                </View>
+
+
 
                 <Text style={{ fontSize: 16, fontWeight: '700', marginBottom: 8, marginTop: 25 }}>
                     Items
@@ -240,7 +254,8 @@ export default function BillingScreen() {
                         marginTop: 20,
                         padding: 12,
                         borderRadius: 8,
-                        backgroundColor: '#f1f5f9',
+                        backgroundColor:
+                            selectedItem.quantity < selectedItem.minStock ? '#fef2f2' : '#ffffff',
                     }}>
                         <View
                             style={{
@@ -252,6 +267,12 @@ export default function BillingScreen() {
                             <Text style={{ fontWeight: '600' }}>
                                 Selected Item: {selectedItem.name}
                             </Text>
+                            {selectedItem.quantity < selectedItem.minStock && (
+                                <Text style={{ color: '#dc2626', fontSize: 12 }}>
+                                    Low Stock
+                                </Text>
+                            )}
+
 
                             <Text
                                 style={{ color: '#ef4444', fontWeight: '600' }}
@@ -588,8 +609,6 @@ export default function BillingScreen() {
             </View>
         </KeyboardAvoidingView >
 
-
-        //</View>
 
     );
 }

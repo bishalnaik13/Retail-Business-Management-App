@@ -12,9 +12,12 @@ export default function CustomersScreen({ navigation }) {
 
     return (
         <View style={{ flex: 1, padding: 16, marginTop: 20 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>
-                Customers with Pending Payments
-            </Text>
+            {customersWithPending.length === 0 && (
+                <Text style={{ color: 'gray', marginTop: 20, textAlign: 'center' }}>
+                    No pending customer payments 🎉
+                </Text>
+            )}
+
 
             <FlatList
                 data={customersWithPending}
@@ -28,15 +31,40 @@ export default function CustomersScreen({ navigation }) {
                             })
                         }
                     >
-                        <View style={{ paddingVertical: 10 }}>
-                            <Text>{item.name}</Text>
-                            <Text>Phone: {item.phone}</Text>
-                            <Text>Pending Amount: ₹{item.pendingAmount}</Text>
+                        <View
+                            style={{
+                                padding: 12,
+                                borderRadius: 10,
+                                backgroundColor: '#f9fafb',
+                                marginBottom: 10,
+                            }}
+                        >
+                            <Text style={{ fontWeight: '600' }}>{item.name}</Text>
+                            <Text style={{ color: '#6b7280' }}>{item.phone}</Text>
+                            <Text style={{ color: '#dc2626', marginTop: 4 }}>
+                                Pending: ₹{item.pendingAmount}
+                            </Text>
+
                         </View>
                     </TouchableOpacity>
                 )}
 
             />
+            <TouchableOpacity
+                style={{
+                    position: 'absolute',
+                    bottom: 20,
+                    right: 20,
+                    backgroundColor: '#2563eb',
+                    padding: 16,
+                    borderRadius: 999,
+                }}
+                onPress={() => navigation.navigate('CustomerForm')}
+            >
+                <Text style={{ color: '#fff', fontWeight: '700' }}> ＋ </Text>
+            </TouchableOpacity>
+
+
 
         </View>
     );
