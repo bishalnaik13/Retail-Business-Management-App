@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import { useContext } from 'react';
 
 import { InvoiceContext } from '../context/InvoiceContext';
@@ -33,6 +33,11 @@ export default function CustomerHistoryScreen({ route }) {
                     )}
                 />
             )}
+            <Button
+                title="View Aging Report"
+                onPress={() => navigation.navigate('AgingReport')}
+            />
+
         </View>
     );
 }

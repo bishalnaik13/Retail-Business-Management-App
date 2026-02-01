@@ -4,6 +4,7 @@ import CustomersScreen from '../screens/CustomersScreen';
 import CustomerHistoryScreen from '../screens/CustomerHistoryScreen';
 import CustomerFormScreen from '../screens/CustomerFormScreen';
 import CustomerLedgerScreen from '../screens/CustomerLedgerScreen';
+import AgingReportScreen from '../screens/AgingReportScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,11 @@ export default function CustomerStack() {
                 name="CustomerLedger"
                 component={CustomerLedgerScreen}
                 options={{ title: 'Customer Ledger' }}
+            />
+            <Stack.Screen
+                name="AgingReport"
+                component={AgingReportScreen}
+                options={{ title: 'Aging Report' }}
             />
         </Stack.Navigator>
     );
