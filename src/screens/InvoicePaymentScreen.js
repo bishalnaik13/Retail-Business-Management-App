@@ -15,7 +15,7 @@ export default function InvoicePaymentScreen({ route, navigation }) {
             ? invoice.balanceAmount
             : Math.max(invoice.total - paidAmount, 0);
 
-    const { updateInvoicePayment } = useContext(InvoiceContext);
+    const { updateInvoicePayment, settleCustomerPayment } = useContext(InvoiceContext);
     const { addTransaction } = useContext(TransactionContext);
 
     const [amount, setAmount] = useState('');
@@ -44,7 +44,14 @@ export default function InvoicePaymentScreen({ route, navigation }) {
                 {
                     text: 'Confirm',
                     onPress: () => {
-                        updateInvoicePayment(invoice.invoiceNo, payAmount);
+                        if (invoice.customerId) {
+                            // Customer-level settlement (oldest invoices first)
+                            settleCustomerPayment(invoice.customerId, payAmount);
+                        } else {
+                            // Fallback: single invoice payment
+                            updateInvoicePayment(invoice.invoiceNo, payAmount);
+                        }
+
                         if (invoice.customerId) {
                             addLedgerEntry({
                                 customerId: invoice.customerId,

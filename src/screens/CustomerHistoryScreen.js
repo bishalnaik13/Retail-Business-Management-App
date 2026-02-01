@@ -25,6 +25,8 @@ export default function CustomerHistoryScreen({ route }) {
                         <View style={{ paddingVertical: 8 }}>
                             <Text>Invoice: {item.invoiceNo}</Text>
                             <Text>Total: ₹{item.total}</Text>
+                            <Text>Paid: ₹{item.paidAmount}</Text>
+                            <Text>Balance: ₹{item.balanceAmount}</Text>
                             <Text>Due Date: {item.dueDate}</Text>
                             <Text>Status: {item.paymentStatus}</Text>
                         </View>

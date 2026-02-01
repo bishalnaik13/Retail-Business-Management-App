@@ -23,7 +23,6 @@ export function InvoiceProvider({ children }) {
         loadInvoices();
     }, []);
 
-
     useEffect(() => {
         const saveInvoices = async () => {
             try {
@@ -83,6 +82,42 @@ export function InvoiceProvider({ children }) {
                     : Math.max(total - paidAmount, 0),
         };
     };
+    /**
+ * Settles a customer payment across invoices (oldest first).
+ */
+    const settleCustomerPayment = (customerId, amount) => {
+        let remaining = amount;
+
+        setInvoices((prevInvoices) =>
+            prevInvoices.map((inv) => {
+                if (
+                    inv.customerId !== customerId ||
+                    inv.balanceAmount === 0 ||
+                    remaining === 0
+                ) {
+                    return inv;
+                }
+
+                const settleAmount = Math.min(inv.balanceAmount, remaining);
+                const newPaid = inv.paidAmount + settleAmount;
+                const newBalance = inv.total - newPaid;
+
+                remaining -= settleAmount;
+
+                let status = inv.paymentStatus;
+                if (newBalance === 0) status = 'PAID';
+                else status = 'PARTIAL';
+
+                return {
+                    ...inv,
+                    paidAmount: newPaid,
+                    balanceAmount: newBalance,
+                    paymentStatus: status,
+                };
+            })
+        );
+    };
+
 
 
     return (
@@ -92,6 +127,7 @@ export function InvoiceProvider({ children }) {
                 addInvoice,
                 getInvoicesByCustomer,
                 updateInvoicePayment,
+                settleCustomerPayment,
             }}
         >
             {children}
