@@ -9,10 +9,12 @@ import { CustomerProvider } from './src/context/CustomerContext';
 import { InvoiceProvider } from './src/context/InvoiceContext';
 import { DealerProvider } from './src/context/DealerContext';
 import { TransactionProvider } from './src/context/TransactionContext';
+import { PurchaseOrderProvider } from './src/context/PurchaseOrderContext';
 
 export default function App() {
   return (
     <InventoryProvider>
+      <PurchaseOrderProvider>
       <CustomerProvider>
         <DealerProvider>
           <InvoiceProvider>
@@ -25,6 +27,7 @@ export default function App() {
           </InvoiceProvider>
         </DealerProvider>
       </CustomerProvider>
+      </PurchaseOrderProvider>
     </InventoryProvider>
   );
 }
