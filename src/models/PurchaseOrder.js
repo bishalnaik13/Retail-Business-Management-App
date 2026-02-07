@@ -11,9 +11,13 @@ export default class PurchaseOrder {
     this.dealerId = dealerId;
     this.date = date;
     this.items = items.map((i) => ({
-      ...i,
+      itemId: i.itemId,
+      name: i.name,
+      orderQty: i.orderQty,
       receivedQty: i.receivedQty || 0,
+      rate: Number(i.rate) || 0, // 👈 REQUIRED
     }));
+
     this.status = status;
   }
 }

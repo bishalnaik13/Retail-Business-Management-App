@@ -23,11 +23,19 @@ export function PurchaseOrderProvider({ children }) {
   }, [purchaseOrders]);
 
   const createPurchaseOrder = ({ dealerId, items }) => {
+    const normalizedItems = items.map((i) => ({
+      itemId: i.itemId,
+      name: i.name,
+      orderQty: Number(i.orderQty),
+      receivedQty: 0,
+      rate: Number(i.rate), 
+    }));
+
     const po = new PurchaseOrder({
       id: Date.now().toString(),
       dealerId,
       date: new Date().toISOString(),
-      items,
+      items: normalizedItems,
       status: PurchaseOrderStatus.ORDERED,
     });
 

@@ -9,11 +9,14 @@ import { useContext, useState } from 'react';
 
 import { PurchaseOrderContext } from '../context/PurchaseOrderContext';
 import { InventoryContext } from '../context/InventoryContext';
+import { DealerContext } from '../context/DealerContext';
 
 export default function GoodsReceiptScreen({ route, navigation }) {
     const { po } = route.params;
     const { receiveGoods } = useContext(PurchaseOrderContext);
     const { increaseStockBatch } = useContext(InventoryContext);
+    const { addDealerLedgerEntry } = useContext(DealerContext);
+
 
     const [received, setReceived] = useState(
         po.items.map((i) => ({
@@ -53,12 +56,32 @@ export default function GoodsReceiptScreen({ route, navigation }) {
             return;
         }
 
+        const totalReceivedValue = entered.reduce(
+            (sum, r) => {
+                const poItem = po.items.find(
+                    (i) => i.itemId === r.itemId
+                );
+                return sum + r.qty * (poItem?.rate || 0);
+            },
+            0
+        );
+
         receiveGoods(po.id, entered);
         increaseStockBatch(entered);
+
+        addDealerLedgerEntry({
+            dealerId: po.dealerId,
+            type: 'DEBIT',
+            amount: totalReceivedValue,
+            reference: po.id,
+            note: 'Goods received',
+        });
+
 
         alert('Goods received successfully');
         navigation.goBack();
     };
+
 
     return (
         <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
@@ -157,6 +180,7 @@ export default function GoodsReceiptScreen({ route, navigation }) {
                     </Text>
                 </TouchableOpacity>
             </View>
+            
         </View>
     );
 }

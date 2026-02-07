@@ -46,7 +46,14 @@ export function InventoryProvider({ children }) {
         if (!acc[item.dealerId]) {
             acc[item.dealerId] = [];
         }
-        acc[item.dealerId].push(item);
+        acc[item.dealerId].push({
+            id: item.id,
+            name: item.name,
+            rate: Number(item.rate), 
+            quantity: item.quantity,
+            minStock: item.minStock,
+            dealerId: item.dealerId,
+        });
         return acc;
     }, {});
 

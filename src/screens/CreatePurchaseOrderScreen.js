@@ -25,7 +25,9 @@ export default function CreatePurchaseOrderScreen({ navigation }) {
                 name: item.name,
                 suggestedQty: Math.max(item.minStock - item.quantity, 1),
                 orderQty: Math.max(item.minStock - item.quantity, 1),
+                rate: Number(item.rate),
             }));
+
         });
         return initial;
     });

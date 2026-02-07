@@ -5,6 +5,7 @@ import {
     ScrollView,
     TouchableOpacity,
     Alert,
+    KeyboardAvoidingView,
 } from 'react-native';
 import { useContext, useState } from 'react';
 import { InventoryContext } from '../context/InventoryContext';
@@ -53,11 +54,11 @@ export default function StockAdjustmentScreen({ route, navigation }) {
     };
 
     return (
-        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
-            {/* SECTION: ADJUSTMENT TYPE */}
-            <View style={styles.card}>
-                <Text style={styles.sectionTitle}>Adjustment Type</Text>
-
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+            <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
+                {/* SECTION: ADJUSTMENT TYPE */}
+                <View style={styles.card}>
+                    <Text style={styles.sectionTitle}>Adjustment Type</Text>
                 <View style={styles.toggleRow}>
                     <TouchableOpacity
                         onPress={() => setMode('DECREASE')}
@@ -157,6 +158,7 @@ export default function StockAdjustmentScreen({ route, navigation }) {
                 </Text>
             </TouchableOpacity>
         </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
