@@ -1,0 +1,5 @@
+export const PurchaseOrderStatus = {
+  ORDERED: 'ORDERED',
+  PARTIALLY_RECEIVED: 'PARTIALLY_RECEIVED',
+  RECEIVED: 'RECEIVED',
+};

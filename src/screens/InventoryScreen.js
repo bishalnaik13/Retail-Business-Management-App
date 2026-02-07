@@ -34,13 +34,16 @@ export default function InventoryScreen({ navigation }) {
             style={{
                 paddingVertical: 12,
                 borderRadius: 8,
-                backgroundColor: variant === 'primary' ? '#2563eb' : '#e5e7eb',
+                backgroundColor:
+                    variant === 'primary' ? '#2563eb' : '#f1f5f9',
+                borderWidth: variant === 'secondary' ? 1 : 0,
+                borderColor: '#c7d2fe',
                 marginTop: 10,
             }}
         >
             <Text
                 style={{
-                    color: variant === 'primary' ? '#fff' : '#111827',
+                    color: variant === 'primary' ? '#fff' : '#1e3a8a',
                     textAlign: 'center',
                     fontWeight: '600',
                 }}
@@ -49,6 +52,7 @@ export default function InventoryScreen({ navigation }) {
             </Text>
         </TouchableOpacity>
     );
+
 
     return (
         <View style={{ flex: 1, padding: 16, marginVertical: 10 }}>
@@ -164,6 +168,12 @@ export default function InventoryScreen({ navigation }) {
                                         label="Create Purchase Orders"
                                         onPress={() => navigation.navigate('CreatePurchaseOrder')}
                                     />
+                                    <ActionButton
+                                        label="View Purchase Orders"
+                                        variant="secondary"
+                                        onPress={() => navigation.navigate('PurchaseOrderList')}
+                                    />
+
                                 </>
                             )}
                         </View>

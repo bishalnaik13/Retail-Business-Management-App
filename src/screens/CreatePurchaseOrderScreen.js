@@ -12,7 +12,7 @@ import { InventoryContext } from '../context/InventoryContext';
 import { PurchaseOrderContext } from '../context/PurchaseOrderContext';
 import { DealerContext } from '../context/DealerContext';
 
-export default function CreatePurchaseOrderScreen() {
+export default function CreatePurchaseOrderScreen({ navigation }) {
     const { orderListByDealer } = useContext(InventoryContext);
     const { createPurchaseOrder } = useContext(PurchaseOrderContext);
     const { dealers } = useContext(DealerContext);
@@ -42,16 +42,12 @@ export default function CreatePurchaseOrderScreen() {
     };
 
     const handleCreatePO = (dealerId) => {
-        const items = drafts[dealerId].filter((i) => i.orderQty > 0);
+        createPurchaseOrder({
+            dealerId,
+            items: drafts[dealerId].filter((i) => i.orderQty > 0),
+        });
 
-        if (items.length === 0) {
-            Alert.alert('No items selected');
-            return;
-        }
-
-        createPurchaseOrder({ dealerId, items });
-
-        Alert.alert('Purchase Order Created');
+        navigation.navigate('PurchaseOrderList');
     };
 
     return (

@@ -116,6 +116,24 @@ export function InventoryProvider({ children }) {
         return true;
     };
 
+    const increaseStockBatch = (receivedItems) => {
+        setItems((prevItems) =>
+            prevItems.map((item) => {
+                const received = receivedItems.find(
+                    (r) => r.itemId === item.id
+                );
+
+                if (!received) return item;
+
+                return {
+                    ...item,
+                    quantity: item.quantity + received.qty,
+                };
+            })
+        );
+    };
+
+
     return (
         <InventoryContext.Provider
             value={{
@@ -123,6 +141,7 @@ export function InventoryProvider({ children }) {
                 addItem,
                 canReduceStock,
                 reduceStockBatch,
+                increaseStockBatch,
                 adjustStock,
                 adjustments,
                 lowStockItems,

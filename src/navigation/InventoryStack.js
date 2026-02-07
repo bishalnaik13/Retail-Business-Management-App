@@ -5,6 +5,8 @@ import InventoryScreen from '../screens/InventoryScreen';
 import InventoryFormScreen from '../screens/InventoryFormScreen';
 import StockAdjustmentScreen from '../screens/StockAdjustmentScreen';
 import CreatePurchaseOrderScreen from '../screens/CreatePurchaseOrderScreen';
+import GoodsReceiptScreen from '../screens/GoodsReceiptScreen';
+import PurchaseOrderListScreen from '../screens/PurchaseOrderListScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +45,17 @@ export default function InventoryStack() {
                 component={CreatePurchaseOrderScreen}
                 options={{ title: 'Purchase Orders' }}
             />
+            <Stack.Screen
+                name="PurchaseOrderList"
+                component={PurchaseOrderListScreen}
+                options={{ title: 'Purchase Orders' }}
+            />
+            <Stack.Screen
+                name="GoodsReceipt"
+                component={GoodsReceiptScreen}
+                options={{ title: 'Goods Receipt' }}
+            />
+
 
         </Stack.Navigator>
     );
